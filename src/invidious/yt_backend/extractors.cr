@@ -667,7 +667,7 @@ private module Parsers
 
         view_count_text = metadata_parts.try &.find { |item| item["icon"]?.nil? && item.dig?("text", "content").try &.as_s.matches?(/\A(?:\d+(?:[.,]\d+)*\s?[kKmMbB]?|No) views\z/) }
           .try &.dig("text", "content").as_s
-        published = metadata_parts.try &.find { |item| item["icon"]?.nil? && item.dig?("text", "content").try &.as_s.matches?(/(?:\A|\s)\d+ ?[smhdwy]\w* ago\z/) }
+        published = metadata_parts.try &.find { |item| item["icon"]?.nil? && item.dig?("text", "content").try &.as_s.matches?(/\A(?:Streamed )?\d+ ?[smhdwy]\w* ago\z/) }
           .try { |item| decode_date(item.dig("text", "content").as_s) } || Time.local
 
         view_count = short_text_to_number(view_count_text || "0")

@@ -30,6 +30,8 @@ Spectator.describe "lockup video metadata rows" do
     "normal first row"                                   => %({"metadataRows":[{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"3 days ago"}}]}]}),
     "collaborators before video statistics"              => %({"metadataRows":[{"metadataParts":[{"text":{"content":"Channel A and Channel B"}}]},{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"3 days ago"}}]}]}),
     "collaborator names containing statistic substrings" => %({"metadataRows":[{"metadataParts":[{"text":{"content":"Chicago Reviews"}},{"text":{"content":"Tech reviews"}}]},{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"3 days ago"}}]}]}),
+    "collaborator name ending in a relative date"        => %({"metadataRows":[{"metadataParts":[{"text":{"content":"Channel 9 days ago"}}]},{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"3 days ago"}}]}]}),
+    "completed stream publication date"                  => %({"metadataRows":[{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"Streamed 3 days ago"}}]}]}),
     "views and publication date in separate rows"        => %({"metadataRows":[{"metadataParts":[{"text":{"content":"1.5M views"}}]},{"metadataParts":[{"text":{"content":"3 days ago"}}]}]}),
     "missing and null metadata parts before statistics"  => %({"metadataRows":[{},{"metadataParts":null},{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"3 days ago"}}]}]}),
     "icon labels before video statistics"                => %({"metadataRows":[{"metadataParts":[{"icon":{},"text":{"content":"99 views"}},{"icon":{},"text":{"content":"9 days ago"}}]},{"metadataParts":[{"text":{"content":"1.5M views"}},{"text":{"content":"3 days ago"}}]}]}),
@@ -49,7 +51,7 @@ Spectator.describe "lockup video metadata rows" do
     end
   end
 
-  sample({"{}", %({"metadataRows":[]}), %({"metadataRows":null}), %({"metadataRows":[{}, {"metadataParts":null}]})}) do |metadata|
+  sample({"{}", %({"metadataRows":[]}), %({"metadataRows":null}), %({"metadataRows":[{}, {"metadataParts":null}]}), %({"metadataRows":[{"metadataParts":[{"text":{"content":"Channel 9 days ago"}}]}]})}) do |metadata|
     it "keeps unknown statistics defaults" do
       before = Time.utc
       video = parse_item(lockup_video_with_metadata(metadata)).as(SearchVideo)
